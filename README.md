@@ -21,7 +21,7 @@ python csvplot.py --infile data3.csv --show --y 9 --sep " " --xtransform date --
 Screenshot
 ----------
 
-![csvplot screenshot](https://raw.githubusercontent.com/mnagel/csvplot/master/doc/csvplot.png "csvplot screenshot")
+![csvplot screenshot](https://raw.githubusercontent.com/mnagel/csvplot/master/doc/ping.png "csvplot screenshot")
 
 Usage
 =====
