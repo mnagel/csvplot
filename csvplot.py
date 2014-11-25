@@ -119,10 +119,8 @@ if options.xtransform == "date":
 box = "tight"
 pad = 0.2
 if options.outfile is not None:
-    print("should save")
-    sys.exit(1)
-    plot.savefig(filename , figsize=(8, 8), dpi=1000, bbox_inches=box, pad_inches=pad)
-    print("saved to %s" % filename)
+    plot.savefig(options.outfile , figsize=(8, 8), dpi=1000, bbox_inches=box, pad_inches=pad)
+    print("saved to %s" % options.outfile)
 
 if options.show:
     plot.show()
