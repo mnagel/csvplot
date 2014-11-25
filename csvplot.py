@@ -11,7 +11,6 @@ import matplotlib
 import matplotlib.pyplot as plot
 import numpy
 import re
-import sys
 
 parser = argparse.ArgumentParser(prog='csvplot')
 parser.add_argument('--title', default="simple plot by csvplot", type=str)
