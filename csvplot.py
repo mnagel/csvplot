@@ -92,9 +92,9 @@ figure = plot.figure()
 subplot = figure.add_subplot(111)
 
 if options.xtransform == "date":
-    subplot.plot_date(x,y, c="gray", marker=options.marker, antialiased=True)
+    subplot.plot_date(x,y, c="blue", marker=options.marker, antialiased=True)
 else:
-    subplot.scatter(x,y, c="gray", marker=options.marker, antialiased=True)
+    subplot.scatter(x,y, c="blue", marker=options.marker, antialiased=True)
 
 #subplot.set_xlim([1.1 * numpy.amin(x) - 1, 1.1 * numpy.amax(x) + 1])
 subplot.set_ylim([1.1 * numpy.amin(y) - 1, 1.1 * numpy.amax(y) + 1])
