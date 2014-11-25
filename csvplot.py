@@ -55,7 +55,11 @@ def transform(value, transformation):
         return timestamp
     if transformation == "ping":
         exp = "time=([0-9.]+)"
-        match = re.match(exp, value)
+        try:
+            match = re.match(exp, value)
+        except:
+            print("regex did not work on value %s" % (value))
+            return None
         #print("line is %s and regex is %s" % (value, exp))
         #print(match.group(1))
         return transform(match.group(1), "float")
@@ -67,6 +71,9 @@ for line in r:
     yval = line[i2n[options.y]]
     xt = transform(xval, options.xtransform)
     yt = transform(yval, options.ytransform)
+    if xt is None or yt is None:
+        print("could not process line %s" % line)
+        continue
     x.append(xt)
     y.append(yt)
 
