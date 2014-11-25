@@ -129,4 +129,4 @@ if options.interact:
     code.interact(local=locals())
 
 if not options.show and not options.outfile:
-    print("we basically just did a syntax check. set --show or --save.")
+    print("we basically just did a syntax check. set --show or --outfile.")
