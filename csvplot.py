@@ -99,8 +99,10 @@ if options.xtransform == "date":
 else:
     subplot.scatter(x,y, c="blue", marker=options.marker, antialiased=True)
 
-#subplot.set_xlim([1.1 * numpy.amin(x) - 1, 1.1 * numpy.amax(x) + 1])
-subplot.set_ylim([1.1 * numpy.amin(y) - 1, 1.1 * numpy.amax(y) + 1])
+dx = numpy.amax(x) - numpy.amin(x)
+dy = numpy.amax(y) - numpy.amin(y)
+subplot.set_xlim([numpy.amin(x) - 0.05*dx, numpy.amax(x) + 0.05*dx])
+subplot.set_ylim([numpy.amin(y) - 0.05*dy, numpy.amax(y) + 0.05*dy])
 
 subplot.set_xlabel(r.fieldnames[options.x])
 subplot.set_ylabel(r.fieldnames[options.y])
