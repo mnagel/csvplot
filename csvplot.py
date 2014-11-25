@@ -14,10 +14,13 @@ import re
 import sys
 
 parser = argparse.ArgumentParser(prog='csvplot')
+parser.add_argument('--title', default="simple plot by csvplot", type=str)
 parser.add_argument('--x', default=1, type=int)
 parser.add_argument('--xtransform', default="float", type=str)
+parser.add_argument('--xlabel', default="x-values", type=str)
 parser.add_argument('--y', default=2, type=int)
 parser.add_argument('--ytransform', default="float", type=str)
+parser.add_argument('--ylabel', default="y-values", type=str)
 parser.add_argument('--infile', default=None, type=str)
 parser.add_argument('--outfile', default=None, type=str)
 parser.add_argument('--show', default=False, action="store_true")
@@ -101,6 +104,11 @@ subplot.set_ylim([1.1 * numpy.amin(y) - 1, 1.1 * numpy.amax(y) + 1])
 
 subplot.set_xlabel(r.fieldnames[options.x])
 subplot.set_ylabel(r.fieldnames[options.y])
+
+subplot.grid(True)
+subplot.set_title(options.title, fontsize=30)
+subplot.set_xlabel(options.xlabel, fontsize=20)
+subplot.set_ylabel(options.ylabel, fontsize=20)
 
 if options.xtransform == "date":
     subplot.xaxis.set_major_formatter(matplotlib.dates.DateFormatter('%Y-%m-%d\n%H:%M:%S'))
