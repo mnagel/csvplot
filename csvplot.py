@@ -16,9 +16,11 @@ parser = argparse.ArgumentParser(prog='csvplot')
 parser.add_argument('--title', default="simple plot by csvplot", type=str)
 parser.add_argument('--x', default=1, type=int)
 parser.add_argument('--xtransform', default="float", type=str)
+parser.add_argument('--xlog', default=False, action="store_true")
 parser.add_argument('--xlabel', default="x-values", type=str)
 parser.add_argument('--y', default=2, type=int)
 parser.add_argument('--ytransform', default="float", type=str)
+parser.add_argument('--ylog', default=False, action="store_true")
 parser.add_argument('--ylabel', default="y-values", type=str)
 parser.add_argument('--infile', default=None, type=str)
 parser.add_argument('--outfile', default=None, type=str)
@@ -112,6 +114,11 @@ subplot.set_ylim([numpy.amin(y) - 0.05*dy, numpy.amax(y) + 0.05*dy])
 
 subplot.set_xlabel(r.fieldnames[options.x])
 subplot.set_ylabel(r.fieldnames[options.y])
+
+if options.xlog:
+    subplot.set_xscale('log')
+if options.ylog:
+    subplot.set_yscale('log')
 
 subplot.grid(True)
 subplot.set_title(options.title, fontsize=30)
