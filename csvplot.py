@@ -89,7 +89,7 @@ print("y is %s" % y)
 if options.interact:
     code.interact(local=locals())
 
-#Direct input 
+#Direct input
 matplotlib.pyplot.rcParams['text.latex.preamble']=[r"\usepackage{lmodern}"]
 #Options
 params = {'text.usetex' : True,
@@ -97,7 +97,7 @@ params = {'text.usetex' : True,
           'font.family' : 'lmodern',
           'text.latex.unicode': True,
           }
-matplotlib.pyplot.rcParams.update(params) 
+matplotlib.pyplot.rcParams.update(params)
 
 figure = plot.figure()
 subplot = figure.add_subplot(111)
