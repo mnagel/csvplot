@@ -8,7 +8,8 @@ import code
 import csv
 import datetime
 import matplotlib
-import matplotlib.pyplot as plot
+# import happens later
+#import matplotlib.pyplot as plot
 import numpy
 import re
 
@@ -30,6 +31,11 @@ parser.add_argument('--interact', default=False, action="store_true")
 parser.add_argument('--sep', default=",", type=str)
 
 options = parser.parse_args()
+
+# need options before matplotlib can be imported
+if not options.show:
+    matplotlib.use('Agg') # allow creating pngs without X server
+import matplotlib.pyplot as plot
 
 # csvplot columns are indexed 1-based
 options.x = options.x - 1
