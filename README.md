@@ -11,6 +11,8 @@ Plots can be re-generated when the data changes.
 
 csvplot is written in Python and based on numpy/matplotlib.
 
+
+
 Simple Example
 =======
 
@@ -34,6 +36,7 @@ Screenshot
 ----------
 
 ![csvplot screenshot](https://raw.githubusercontent.com/mnagel/csvplot/master/doc/data.png "csvplot screenshot")
+
 
 
 Real Example
