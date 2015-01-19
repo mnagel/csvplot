@@ -51,6 +51,9 @@ numpy.set_printoptions(precision=5)
 if options.infile is None:
     exit("--infile argument is mandatory")
 
+if options.sep == '\\t':
+    options.sep = '\t'
+
 r = csv.DictReader(open(options.infile), delimiter=options.sep)
 # index to name
 i2n = r.fieldnames
