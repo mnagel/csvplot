@@ -139,7 +139,9 @@ subplot.set_xlabel(options.xlabel, fontsize=20)
 subplot.set_ylabel(options.ylabel, fontsize=20)
 
 if options.xtransform == "date":
-    subplot.xaxis.set_major_formatter(matplotlib.dates.DateFormatter('%Y-%m-%d\n%H:%M:%S'))
+    plot.xticks(rotation=30)
+    subplot.xaxis.set_major_locator(matplotlib.dates.DayLocator())
+    subplot.xaxis.set_major_formatter(matplotlib.dates.DateFormatter(options.timeformat))
 #subplot.yaxis.set_major_locator(MultipleLocator(options.ystep))
 
 box = "tight"
