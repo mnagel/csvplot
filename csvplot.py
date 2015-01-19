@@ -27,6 +27,7 @@ parser.add_argument('--infile', default=None, type=str)
 parser.add_argument('--outfile', default=None, type=str)
 parser.add_argument('--show', default=False, action="store_true")
 parser.add_argument('--marker', default='.', type=str)
+parser.add_argument('--linestyle', default='', type=str)
 parser.add_argument('--interact', default=False, action="store_true")
 parser.add_argument('--sep', default=",", type=str)
 parser.add_argument('--nolatex', default=False, action="store_true")
@@ -112,7 +113,7 @@ if not options.nolatex:
 subplot = figure.add_subplot(111)
 
 if options.xtransform == "date":
-    subplot.plot_date(x,y, c="blue", marker=options.marker, antialiased=True)
+    subplot.plot_date(x,y, c="blue", marker=options.marker, linestyle=options.linestyle,  antialiased=True)
 else:
     subplot.scatter(x,y, c="blue", marker=options.marker, antialiased=True)
 
