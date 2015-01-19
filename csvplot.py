@@ -29,6 +29,7 @@ parser.add_argument('--show', default=False, action="store_true")
 parser.add_argument('--marker', default='.', type=str)
 parser.add_argument('--interact', default=False, action="store_true")
 parser.add_argument('--sep', default=",", type=str)
+parser.add_argument('--nolatex', default=False, action="store_true")
 
 options = parser.parse_args()
 
@@ -95,17 +96,18 @@ print("y is %s" % y)
 if options.interact:
     code.interact(local=locals())
 
-#Direct input
-matplotlib.pyplot.rcParams['text.latex.preamble']=[r"\usepackage{lmodern}"]
-#Options
-params = {'text.usetex' : True,
-          'font.size' : 11,
-          'font.family' : 'lmodern',
-          'text.latex.unicode': True,
-          }
-matplotlib.pyplot.rcParams.update(params)
+if not options.nolatex:
+    #Direct input
+    matplotlib.pyplot.rcParams['text.latex.preamble']=[r"\usepackage{lmodern}"]
+    #Options
+    params = {
+        'text.usetex' : True,
+        'font.size' : 11,
+        'font.family' : 'lmodern',
+        'text.latex.unicode': True,
+    }
+    matplotlib.pyplot.rcParams.update(params)
 
-figure = plot.figure()
 subplot = figure.add_subplot(111)
 
 if options.xtransform == "date":
