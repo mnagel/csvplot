@@ -148,7 +148,6 @@ if options.xtransform == "date":
     loccer.MAXTICKS = 100000
     subplot.xaxis.set_major_locator(loccer)
     subplot.xaxis.set_major_formatter(matplotlib.dates.DateFormatter(options.timeformat))
-#subplot.yaxis.set_major_locator(MultipleLocator(options.ystep))
 
 box = "tight"
 pad = 0.2
