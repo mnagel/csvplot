@@ -30,6 +30,7 @@ parser.add_argument('--marker', default='.', type=str)
 parser.add_argument('--interact', default=False, action="store_true")
 parser.add_argument('--sep', default=",", type=str)
 parser.add_argument('--nolatex', default=False, action="store_true")
+parser.add_argument('--timeformat', default='%Y-%m-%d@%H:%M:%S', type=str)
 
 options = parser.parse_args()
 
@@ -58,7 +59,7 @@ def transform(value, transformation):
     if transformation == "float":
         return float(value)
     if transformation == "date":
-        dt = datetime.datetime.strptime(value, '%Y-%m-%d@%H:%M:%S')
+        dt = datetime.datetime.strptime(value, options.timeformat)
         timestamp = matplotlib.dates.date2num(dt)
         return timestamp
     if transformation == "ping":
