@@ -143,7 +143,10 @@ subplot.set_ylabel(options.ylabel, fontsize=20)
 
 if options.xtransform == "date":
     plot.xticks(rotation=30)
-    subplot.xaxis.set_major_locator(matplotlib.dates.DayLocator())
+    loccer = matplotlib.dates.DayLocator()
+    #loccer = matplotlib.dates.MinuteLocator()
+    loccer.MAXTICKS = 100000
+    subplot.xaxis.set_major_locator(loccer)
     subplot.xaxis.set_major_formatter(matplotlib.dates.DateFormatter(options.timeformat))
 #subplot.yaxis.set_major_locator(MultipleLocator(options.ystep))
 
