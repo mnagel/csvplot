@@ -16,10 +16,12 @@ import re
 parser = argparse.ArgumentParser(prog='csvplot')
 parser.add_argument('--title', default="simple plot by csvplot", type=str)
 parser.add_argument('--x', default=1, type=int)
+parser.add_argument('--xsize', default=8, type=int)
 parser.add_argument('--xtransform', default="float", type=str)
 parser.add_argument('--xlog', default=False, action="store_true")
 parser.add_argument('--xlabel', default="x-values", type=str)
 parser.add_argument('--y', default=2, type=int)
+parser.add_argument('--ysize', default=6, type=int)
 parser.add_argument('--ytransform', default="float", type=str)
 parser.add_argument('--ylog', default=False, action="store_true")
 parser.add_argument('--ylabel', default="y-values", type=str)
@@ -113,6 +115,7 @@ if not options.nolatex:
     }
     matplotlib.pyplot.rcParams.update(params)
 
+figure = plot.figure(figsize=(options.xsize, options.ysize))
 subplot = figure.add_subplot(111)
 
 if options.xtransform == "date":
@@ -147,7 +150,7 @@ if options.xtransform == "date":
 box = "tight"
 pad = 0.2
 if options.outfile is not None:
-    plot.savefig(options.outfile , figsize=(8, 8), dpi=1000, bbox_inches=box, pad_inches=pad)
+    plot.savefig(options.outfile, dpi=80, bbox_inches=box, pad_inches=pad)
     print("saved to %s" % options.outfile)
 
 if options.show:
