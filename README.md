@@ -62,6 +62,21 @@ Screenshot
 
 ![csvplot screenshot](https://raw.githubusercontent.com/mnagel/csvplot/master/doc/ping.png "csvplot screenshot")
 
+
+
+Installation
+============
+
+* Install the dependecies
+
+```
+sudo apt-get install python-matplotlib
+```
+
+Save csvplot.py anywhere and run it as described in the examples or the usage section.
+
+
+
 Usage
 =====
 
