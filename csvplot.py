@@ -33,7 +33,7 @@ parser.add_argument('--linestyle', default='', type=str)
 parser.add_argument('--interact', default=False, action="store_true")
 parser.add_argument('--sep', default=",", type=str)
 parser.add_argument('--nolatex', default=False, action="store_true")
-parser.add_argument('--timeformat', default='%Y-%m-%d@%H:%M:%S', type=str)
+parser.add_argument('--dateformat', default='%Y-%m-%d@%H:%M:%S', type=str)
 
 options = parser.parse_args()
 
@@ -65,7 +65,7 @@ def transform(value, transformation):
     if transformation == "float":
         return float(value)
     if transformation == "date":
-        dt = datetime.datetime.strptime(value, options.timeformat)
+        dt = datetime.datetime.strptime(value, options.dateformat)
         timestamp = matplotlib.dates.date2num(dt)
         return timestamp
     if transformation == "ping":
@@ -147,7 +147,7 @@ if options.xtransform == "date":
     #loccer = matplotlib.dates.MinuteLocator()
     loccer.MAXTICKS = 100000
     subplot.xaxis.set_major_locator(loccer)
-    subplot.xaxis.set_major_formatter(matplotlib.dates.DateFormatter(options.timeformat))
+    subplot.xaxis.set_major_formatter(matplotlib.dates.DateFormatter(options.dateformat))
 
 box = "tight"
 pad = 0.2
