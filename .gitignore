@@ -1,4 +1,6 @@
 *.csv
+*.png
 !doc/*.csv
+!doc/*.png
 
 *~
