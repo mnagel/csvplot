@@ -34,6 +34,7 @@ parser.add_argument('--interact', default=False, action="store_true")
 parser.add_argument('--sep', default=",", type=str)
 parser.add_argument('--nolatex', default=False, action="store_true")
 parser.add_argument('--dateformat', default='%Y-%m-%d@%H:%M:%S', type=str)
+parser.add_argument('--datelocator', default="auto", type=str)
 
 options = parser.parse_args()
 
@@ -143,9 +144,13 @@ subplot.set_ylabel(options.ylabel, fontsize=20)
 
 if options.xtransform == "date":
     plot.xticks(rotation=30)
-    loccer = matplotlib.dates.DayLocator()
-    #loccer = matplotlib.dates.MinuteLocator()
-    loccer.MAXTICKS = 100000
+    if options.datelocator == 'day':
+        loccer = matplotlib.dates.DayLocator()
+    elif options.datelocator == 'minute':
+        loccer = matplotlib.dates.MinuteLocator(interval=5)
+    else:
+        loccer = matplotlib.dates.AutoDateLocator()
+    loccer.MAXTICKS = 2000
     subplot.xaxis.set_major_locator(loccer)
     subplot.xaxis.set_major_formatter(matplotlib.dates.DateFormatter(options.dateformat))
 
