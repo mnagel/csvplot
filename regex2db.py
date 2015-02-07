@@ -12,6 +12,7 @@ def read_arguments(args):
     parser = argparse.ArgumentParser()
 
     parser.add_argument('--dbfile', required=True, type=str)
+    parser.add_argument('--truncate', default=False, action='store_true')
     parser.add_argument('--regex', required=True, type=str)
     parser.add_argument('--tablename', required=True, type=str)
     parser.add_argument('--capture', nargs=3, action='append')
@@ -60,6 +61,11 @@ def main(options):
 
     con = sqlite3.connect(options.dbfile)
     cur = con.cursor()
+
+    if options.truncate:
+        print("!!! TRUNCATING !!!")
+        # TODO check the whole program for major sql injections
+        cur.execute('DELETE FROM %s' % options.tablename)
 
     for file in options.infile:
         print("processing file %s" % file)
