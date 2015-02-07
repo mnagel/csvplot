@@ -23,7 +23,7 @@ def read_arguments(args):
 def processLine(line, con, cur):
     m = re.match(options.regex, line)
     if m:
-        print("matched line %s" % line)
+        print("matched line %s" % line.rstrip())
         # print(m)
         pairs = {}
         for cap in options.capture:
