@@ -4,17 +4,9 @@
 from __future__ import print_function
 
 import argparse
-import code
-import csv
-import datetime
-import matplotlib
-# import happens later
-#import matplotlib.pyplot as plot
-import numpy
 import re
-
-import sys
 import sqlite3
+import sys
 
 def read_arguments(args):
     parser = argparse.ArgumentParser()
@@ -32,7 +24,7 @@ def processLine(line, con, cur):
     m = re.match(options.regex, line)
     if m:
         print("matched line %s" % line)
-        print(m)
+        # print(m)
         pairs = {}
         for cap in options.capture:
             idx = int(cap[0])
@@ -53,7 +45,6 @@ def writeLineToDb(con, cur, table, col_val_dict):
     query = 'INSERT INTO %s (%s) VALUES (%s)' % (table, columns, placeholders)
     print('qry: %s' % query)
     cur.execute(query, col_val_dict)
-    # con.commit() # TODO check if good idea
 
 def processFile(file, con, cur):
         matchcount = 0
@@ -64,11 +55,8 @@ def processFile(file, con, cur):
         print("matched %d lines" % matchcount)
 
 def main(options):
-
-
     print("files are: %s" % options.infile)
     print("captures are: %s" % options.capture)
-
 
     con = sqlite3.connect(options.dbfile)
     cur = con.cursor()
