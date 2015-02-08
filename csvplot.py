@@ -73,12 +73,10 @@ def transform(value, transformation):
         exp = "time=([0-9.]+)"
         try:
             match = re.match(exp, value)
+            return transform(match.group(1), "float")
         except:
             print("regex did not work on value %s" % (value))
             return None
-        #print("line is %s and regex is %s" % (value, exp))
-        #print(match.group(1))
-        return transform(match.group(1), "float")
     return value
 
 x,y = [],[]
