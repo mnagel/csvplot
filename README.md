@@ -83,24 +83,72 @@ Save csvplot.py anywhere and run it as described in the examples or the usage se
 Usage
 =====
 
-WIP
-
 ```
-usage: csvplot [-h] [--x X] [--xtransform XTRANSFORM] [--y Y]
-               [--ytransform YTRANSFORM] [--infile INFILE] [--outfile OUTFILE]
-               [--show] [--interact] [--sep SEP]
+$ python csvplot.py csvmode -h
+usage: csvplot csvmode [-h] [--sep SEP] [--x X] [--y Y] [--infile INFILE]
+[--title TITLE] [--xsize XSIZE]
+[--xtransform XTRANSFORM] [--xlog] [--xlabel XLABEL]
+[--ysize YSIZE] [--ytransform YTRANSFORM] [--ylog]
+[--ylabel YLABEL] [--outfile OUTFILE] [--show]
+[--marker MARKER] [--linestyle LINESTYLE] [--interact]
+[--nolatex] [--dateformat DATEFORMAT]
+[--datelocator DATELOCATOR]
 
 optional arguments:
-  -h, --help            show this help message and exit
-  --x X
-  --xtransform XTRANSFORM
-  --y Y
-  --ytransform YTRANSFORM
-  --infile INFILE
-  --outfile OUTFILE
-  --show
-  --interact
-  --sep SEP
+-h, --help            show this help message and exit
+--sep SEP
+--x X
+--y Y
+--infile INFILE
+--title TITLE
+--xsize XSIZE
+--xtransform XTRANSFORM
+--xlog
+--xlabel XLABEL
+--ysize YSIZE
+--ytransform YTRANSFORM
+--ylog
+--ylabel YLABEL
+--outfile OUTFILE
+--show
+--marker MARKER
+--linestyle LINESTYLE
+--interact
+--nolatex
+--dateformat DATEFORMAT
+--datelocator DATELOCATOR
+
+
+$ python csvplot.py sqlmode -h
+usage: csvplot sqlmode [-h] --dbfile DBFILE --sql SQL [--title TITLE]
+[--xsize XSIZE] [--xtransform XTRANSFORM] [--xlog]
+[--xlabel XLABEL] [--ysize YSIZE]
+[--ytransform YTRANSFORM] [--ylog] [--ylabel YLABEL]
+[--outfile OUTFILE] [--show] [--marker MARKER]
+[--linestyle LINESTYLE] [--interact] [--nolatex]
+[--dateformat DATEFORMAT] [--datelocator DATELOCATOR]
+
+optional arguments:
+-h, --help            show this help message and exit
+--dbfile DBFILE
+--sql SQL
+--title TITLE
+--xsize XSIZE
+--xtransform XTRANSFORM
+--xlog
+--xlabel XLABEL
+--ysize YSIZE
+--ytransform YTRANSFORM
+--ylog
+--ylabel YLABEL
+--outfile OUTFILE
+--show
+--marker MARKER
+--linestyle LINESTYLE
+--interact
+--nolatex
+--dateformat DATEFORMAT
+--datelocator DATELOCATOR
 ```
 
 
