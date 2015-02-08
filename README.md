@@ -1,7 +1,7 @@
 csvplot
 =======
 
-csvplot helps you to plot data in plaintext/csv format. 
+csvplot helps you to plot data in plaintext/csv format.
 Plots are customizable using csvplot features
 or by dropping back to Python/matplotlib functionality.
 
