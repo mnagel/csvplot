@@ -29,7 +29,7 @@ x,y
 ```
 
 ```
-python csvplot.py --infile doc/data.csv --show
+python csvplot.py csvmode --infile doc/data.csv --show
 ```
 
 Screenshot
@@ -57,7 +57,7 @@ ping heise.de | while read pong; do echo "$(date '+%Y-%m-%d@%H:%M:%S') $pong"; d
 You need to manually add the first header line and remove trailing statistics output added by `ping` (last few lines).
 
 ```
-python csvplot.py --infile doc/ping.csv --y 9 --sep " " --xtransform date --ytransform ping --title "scatterplot of latency to heise.de" --xlabel "timestamp" --ylabel "latency [ms]" --show
+python csvplot.py csvmode --infile doc/ping.csv --y 9 --sep " " --xtransform date --ytransform ping --title "scatterplot of latency to heise.de" --xlabel "timestamp" --ylabel "latency [ms]" --show
 ```
 
 Screenshot
