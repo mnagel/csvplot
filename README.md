@@ -14,7 +14,7 @@ csvplot is written in Python and based on numpy/matplotlib.
 
 
 Simple Example
-=======
+==============
 
 Input is structured like this:
 ```
@@ -40,7 +40,7 @@ Screenshot
 
 
 Real Example
-=======
+============
 
 Input is structured like this:
 ```
