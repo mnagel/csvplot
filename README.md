@@ -67,6 +67,46 @@ Screenshot
 
 
 
+SQL Mode
+========
+
+`regex2db.py` allows to parse textfiles by regular expressions and write the data to a sqlite database.
+`csvplot.py` supports a special `sqlmode` that allows reading data from a sqlite database.
+
+The following example is basic as the power of SQL is not really used, but the principle should be clear.
+
+The above ping example can be solved using the sqlite way as follows:
+
+```
+# create a database with suitable schema.
+# any schema can be used
+
+sqlite3 ping.sqlite <<EOF
+CREATE TABLE data1 (timestamp TEXT, host TEXT, ip TEXT, ping REAL);
+.exit
+EOF
+
+
+# fill the database from a log file.
+
+python regex2db.py --dbfile ping.sqlite --tablename data1 --truncate \
+  --capture 1 date timestamp \
+  --capture 2 string host \
+  --capture 3 string ip \
+  --capture 4 float ping \
+  --regex '(\S{19}) 64 bytes from (\S+) \(([0-9.]+)\): icmp_seq=\d+ ttl=\d+ time=([0-9.]+) ms' \
+  doc/ping.csv
+
+
+# run the csvplot in sqlmode.
+
+python csvplot.py sqlmode --dbfile ping.sqlite --sql 'select timestamp as x, ping as y from data1;' --xtransform date --title "scatterplot of latency to heise.de" --xlabel "timestamp" --ylabel "latency [ms]" --show
+```
+
+The SQL statement can have any complexity, but must select rows with (at least) the columns `x` and `y` containing the data to plot.
+
+
+
 Installation
 ============
 
