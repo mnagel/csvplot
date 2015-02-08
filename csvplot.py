@@ -127,9 +127,6 @@ dy = numpy.amax(y) - numpy.amin(y)
 subplot.set_xlim([numpy.amin(x) - 0.05*dx, numpy.amax(x) + 0.05*dx])
 subplot.set_ylim([numpy.amin(y) - 0.05*dy, numpy.amax(y) + 0.05*dy])
 
-subplot.set_xlabel(r.fieldnames[options.x])
-subplot.set_ylabel(r.fieldnames[options.y])
-
 if options.xlog:
     subplot.set_xscale('log')
 if options.ylog:
