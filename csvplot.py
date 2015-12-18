@@ -37,6 +37,8 @@ parser = argparse.ArgumentParser(prog='csvplot')
 
 subparsers = parser.add_subparsers(dest="operationmode")
 sql_parser = subparsers.add_parser('sqlmode')
+# workaround http://stackoverflow.com/a/23354355/2536029
+subparsers.required = True
 sql_parser.add_argument('--dbfile', required=True, type=str)
 sql_parser.add_argument('--sql', required=True, type=str)
 add_common_arguments(sql_parser)
