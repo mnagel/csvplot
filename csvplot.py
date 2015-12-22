@@ -178,6 +178,8 @@ def do_once_per_plot(subplot, options):
 
 
 def prepare_matplotlib(options):
+    # noinspection PyGlobalUndefined
+    global matplotlib
     # need options before matplotlib can be imported
     if not options.show:
         # allow creating pngs without X server
