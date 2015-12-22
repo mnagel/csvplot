@@ -1,7 +1,7 @@
 csvplot
 =======
 
-csvplot helps you to plot data in plaintext/csv format.
+csvplot helps you to plot data in plaintext/csv format or from SQLite databases.
 Plots are customizable using csvplot features
 or by dropping back to Python/matplotlib functionality.
 
@@ -29,7 +29,8 @@ x,y
 ```
 
 ```
-python csvplot.py csvmode --infile doc/data.csv --show
+# works with python 2 and 3
+python csvplot.py csvmode --nolatex --infile doc/data.csv --show
 ```
 
 Screenshot
@@ -57,7 +58,7 @@ ping heise.de | while read pong; do echo "$(date '+%Y-%m-%d@%H:%M:%S') $pong"; d
 You need to manually add the first header line and remove trailing statistics output added by `ping` (last few lines).
 
 ```
-python csvplot.py csvmode --infile doc/ping.csv --y 9 --sep " " --xtransform date --ytransform ping --title "scatterplot of latency to heise.de" --xlabel "timestamp" --ylabel "latency [ms]" --show
+python csvplot.py csvmode --nolatex --infile doc/ping.csv --xy 1 9 --sep " " --xtransform date --ytransform ping --title "scatterplot of latency to heise.de" --xlabel "timestamp" --ylabel "latency [ms]" --show
 ```
 
 Screenshot
@@ -100,7 +101,7 @@ python regex2db.py --dbfile ping.sqlite --tablename data1 --truncate \
 
 # run the csvplot in sqlmode.
 
-python csvplot.py sqlmode --dbfile ping.sqlite --sql 'select timestamp as x, ping as y from data1;' --xtransform date --title "scatterplot of latency to heise.de" --xlabel "timestamp" --ylabel "latency [ms]" --show
+python csvplot.py sqlmode --nolatex --dbfile ping.sqlite --sql 'select timestamp as x, ping as y from data1;' --xtransform date --title "scatterplot of latency to heise.de" --xlabel "timestamp" --ylabel "latency [ms]" --show
 ```
 
 The SQL statement can have any complexity, but must select rows with (at least) the columns `x` and `y` containing the data to plot.
@@ -125,70 +126,101 @@ Usage
 
 ```
 $ python csvplot.py csvmode -h
-usage: csvplot csvmode [-h] [--sep SEP] [--x X] [--y Y] [--infile INFILE]
-[--title TITLE] [--xsize XSIZE]
-[--xtransform XTRANSFORM] [--xlog] [--xlabel XLABEL]
-[--ysize YSIZE] [--ytransform YTRANSFORM] [--ylog]
-[--ylabel YLABEL] [--outfile OUTFILE] [--show]
-[--marker MARKER] [--linestyle LINESTYLE] [--interact]
-[--nolatex] [--dateformat DATEFORMAT]
-[--datelocator DATELOCATOR]
+usage: csvplot csvmode [-h] [--noheader] [--sep SEP] [--xy XY XY]
+                       (--infile INFILE | --stdin) [--title TITLE]
+                       [--xsize XSIZE] [--xtransform XTRANSFORM] [--xlog]
+                       [--xlabel XLABEL] [--ysize YSIZE]
+                       [--ytransform YTRANSFORM] [--ylog] [--ylabel YLABEL]
+                       [--outfile OUTFILE] [--show] [--marker MARKER]
+                       [--linestyle LINESTYLE] [--interact] [--nolatex]
+                       [--dateformat DATEFORMAT] [--datelocator DATELOCATOR]
+                       [-d] [-v]
 
 optional arguments:
--h, --help            show this help message and exit
---sep SEP
---x X
---y Y
---infile INFILE
---title TITLE
---xsize XSIZE
---xtransform XTRANSFORM
---xlog
---xlabel XLABEL
---ysize YSIZE
---ytransform YTRANSFORM
---ylog
---ylabel YLABEL
---outfile OUTFILE
---show
---marker MARKER
---linestyle LINESTYLE
---interact
---nolatex
---dateformat DATEFORMAT
---datelocator DATELOCATOR
+  -h, --help            show this help message and exit
+  --noheader            if set, first line is data, not header (default:
+                        False)
+  --sep SEP             seperator used in csv file ala ','/' '/'\t' (default:
+                        ,)
+  --xy XY XY            index of column for x and y data (default: None)
+  --infile INFILE       csv file to open (default: None)
+  --stdin               read from stdin (default: False)
+  --title TITLE         graph title (default: simple plot by csvplot)
+  --xsize XSIZE         size of graph (default: 8)
+  --xtransform XTRANSFORM
+                        transformation for x values (float/date/ping)
+                        (default: float)
+  --xlog                use logarithmic x axis (default: False)
+  --xlabel XLABEL       label for x axis (default: x-values)
+  --ysize YSIZE         size of graph (default: 6)
+  --ytransform YTRANSFORM
+                        see xtransform (default: float)
+  --ylog                use logarithmic y axis (default: False)
+  --ylabel YLABEL       label for y axis (default: y-values)
+  --outfile OUTFILE     file to save plot to (default: None)
+  --show                if set, opens plot in an interactive window (default:
+                        False)
+  --marker MARKER       matplotlib marker style ala ./x/o (default: .)
+  --linestyle LINESTYLE
+                        matplotlib line style ala ''/-/. (default: )
+  --interact            if set, drop to python shell before plotting (default:
+                        False)
+  --nolatex             if set, no latex is required to run (default: False)
+  --dateformat DATEFORMAT
+                        date format used to parse dates (default:
+                        %Y-%m-%d@%H:%M:%S)
+  --datelocator DATELOCATOR
+                        where to put date markers ala auto/day/minute
+                        (default: auto)
+  -d, --debug           enable debug output (default: 30)
+  -v, --verbose         enable verbose output (default: None)
+
 
 
 $ python csvplot.py sqlmode -h
 usage: csvplot sqlmode [-h] --dbfile DBFILE --sql SQL [--title TITLE]
-[--xsize XSIZE] [--xtransform XTRANSFORM] [--xlog]
-[--xlabel XLABEL] [--ysize YSIZE]
-[--ytransform YTRANSFORM] [--ylog] [--ylabel YLABEL]
-[--outfile OUTFILE] [--show] [--marker MARKER]
-[--linestyle LINESTYLE] [--interact] [--nolatex]
-[--dateformat DATEFORMAT] [--datelocator DATELOCATOR]
+                       [--xsize XSIZE] [--xtransform XTRANSFORM] [--xlog]
+                       [--xlabel XLABEL] [--ysize YSIZE]
+                       [--ytransform YTRANSFORM] [--ylog] [--ylabel YLABEL]
+                       [--outfile OUTFILE] [--show] [--marker MARKER]
+                       [--linestyle LINESTYLE] [--interact] [--nolatex]
+                       [--dateformat DATEFORMAT] [--datelocator DATELOCATOR]
+                       [-d] [-v]
 
 optional arguments:
--h, --help            show this help message and exit
---dbfile DBFILE
---sql SQL
---title TITLE
---xsize XSIZE
---xtransform XTRANSFORM
---xlog
---xlabel XLABEL
---ysize YSIZE
---ytransform YTRANSFORM
---ylog
---ylabel YLABEL
---outfile OUTFILE
---show
---marker MARKER
---linestyle LINESTYLE
---interact
---nolatex
---dateformat DATEFORMAT
---datelocator DATELOCATOR
+  -h, --help            show this help message and exit
+  --dbfile DBFILE       db file to open (default: None)
+  --sql SQL             sql query that returns (at least) 'x' and 'y' data
+                        (default: None)
+  --title TITLE         graph title (default: simple plot by csvplot)
+  --xsize XSIZE         size of graph (default: 8)
+  --xtransform XTRANSFORM
+                        transformation for x values (float/date/ping)
+                        (default: float)
+  --xlog                use logarithmic x axis (default: False)
+  --xlabel XLABEL       label for x axis (default: x-values)
+  --ysize YSIZE         size of graph (default: 6)
+  --ytransform YTRANSFORM
+                        see xtransform (default: float)
+  --ylog                use logarithmic y axis (default: False)
+  --ylabel YLABEL       label for y axis (default: y-values)
+  --outfile OUTFILE     file to save plot to (default: None)
+  --show                if set, opens plot in an interactive window (default:
+                        False)
+  --marker MARKER       matplotlib marker style ala ./x/o (default: .)
+  --linestyle LINESTYLE
+                        matplotlib line style ala ''/-/. (default: )
+  --interact            if set, drop to python shell before plotting (default:
+                        False)
+  --nolatex             if set, no latex is required to run (default: False)
+  --dateformat DATEFORMAT
+                        date format used to parse dates (default:
+                        %Y-%m-%d@%H:%M:%S)
+  --datelocator DATELOCATOR
+                        where to put date markers ala auto/day/minute
+                        (default: auto)
+  -d, --debug           enable debug output (default: 30)
+  -v, --verbose         enable verbose output (default: None)
 ```
 
 
