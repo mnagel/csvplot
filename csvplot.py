@@ -209,61 +209,76 @@ def prepare_matplotlib(options):
 
 def main(options):
     logging.debug("options are %s" % options)
-    subplot = prepare_matplotlib(options)
 
     if options.operationmode == "csvmode":
-        if not options.xy:
-            options.xy = [[1, 2]]
+        main_csvmode(options)
+    else:
+        main_sqlmode(options)
 
-        if options.sep == '\\t':
-            options.sep = '\t'
 
-        index = 0
+def main_csvmode(options):
+    subplot = prepare_matplotlib(options)
 
-        if options.stdin:
-            alltext = sys.stdin.read()
-            if sys.version_info < (3, 0):
-                alltext = alltext.decode('utf8')
-        else:
-            alltext = open(options.infile).read()
+    if not options.xy:
+        options.xy = [[1, 2]]
 
-        for xy in options.xy:
-            logging.info("creating graph for %s" % xy)
+    if options.sep == '\\t':
+        options.sep = '\t'
 
-            # csvplot columns are indexed 1-based
-            xind = xy[0] - 1
-            yind = xy[1] - 1
+    index = 0
 
-            allmylines = csv.reader(io.StringIO(alltext), delimiter=options.sep)
-            if not options.noheader:
-                next(allmylines)
+    if options.stdin:
+        alltext = sys.stdin.read()
+    else:
+        alltext = open(options.infile).read()
 
-            x, y = get_arrays_to_plot(allmylines, xind, yind, options)
-            do_once_per_graph(subplot, x, y, index, options)
-            index += 1
+    if sys.version_info < (3, 0):
+        alltext = alltext.decode('utf8')
 
-    else:  # if options.operationmode == "sqlmode":
-        def dict_factory(cursor, row):
-            d = {}
-            for idx, col in enumerate(cursor.description):
-                d[col[0]] = row[idx]
-            return d
+    for xy in options.xy:
+        logging.info("creating graph for %s" % xy)
 
-        print('connecting to %s' % options.dbfile)
-        con = sqlite3.connect(options.dbfile)
-        con.row_factory = dict_factory
-        cur = con.cursor()
-        print('execing: %s' % options.sql)
-        r = cur.execute(options.sql)
+        # csvplot columns are indexed 1-based
+        xind = xy[0] - 1
+        yind = xy[1] - 1
 
-        allmylines = iter(r.fetchone, None)
-        xind = 'x'
-        yind = 'y'
+        allmylines = csv.reader(io.StringIO(alltext), delimiter=options.sep)
+        if not options.noheader:
+            next(allmylines)
 
         x, y = get_arrays_to_plot(allmylines, xind, yind, options)
-        do_once_per_graph(subplot, x, y, 1, options)
+        do_once_per_graph(subplot, x, y, index, options)
+        index += 1
 
     do_once_per_plot(subplot, options)
+
+
+def main_sqlmode(options):
+    logging.debug("options are %s" % options)
+    subplot = prepare_matplotlib(options)
+
+    def dict_factory(cursor, row):
+        d = {}
+        for idx, col in enumerate(cursor.description):
+            d[col[0]] = row[idx]
+        return d
+
+    print('connecting to %s' % options.dbfile)
+    con = sqlite3.connect(options.dbfile)
+    con.row_factory = dict_factory
+    cur = con.cursor()
+    print('execing: %s' % options.sql)
+    r = cur.execute(options.sql)
+
+    allmylines = iter(r.fetchone, None)
+    xind = 'x'
+    yind = 'y'
+
+    x, y = get_arrays_to_plot(allmylines, xind, yind, options)
+    do_once_per_graph(subplot, x, y, 1, options)
+
+    do_once_per_plot(subplot, options)
+
 
 if __name__ == '__main__':
     myoptions = read_arguments(sys.argv[1:])
