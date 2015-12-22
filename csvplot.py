@@ -34,12 +34,15 @@ def read_arguments(args):
         p.add_argument('--show', help="if set, opens plot in an interactive window", default=False, action="store_true")
         p.add_argument('--marker', help="matplotlib marker style ala ./x/o", default='.', type=str)
         p.add_argument('--linestyle', help="matplotlib line style ala ''/-/.", default='', type=str)
-        p.add_argument('--interact', help="if set, open python shell before plotting", default=False, action="store_true")
+        p.add_argument('--interact', help="if set, drop to python shell before plotting",
+                       default=False, action="store_true")
         p.add_argument('--nolatex', help="if set, no latex is required to run", default=False, action="store_true")
         p.add_argument('--dateformat', help="date format used to parse dates", default='%Y-%m-%d@%H:%M:%S', type=str)
         p.add_argument('--datelocator', help="where to put date markers ala auto/day/minute", default="auto", type=str)
-        p.add_argument('-d', '--debug', action="store_const", dest="loglevel", const=logging.DEBUG, default=logging.WARNING)
-        p.add_argument('-v', '--verbose', action="store_const", dest="loglevel", const=logging.INFO)
+        p.add_argument('-d', '--debug', help="enable debug output",
+                       action="store_const", dest="loglevel", const=logging.DEBUG, default=logging.WARNING)
+        p.add_argument('-v', '--verbose', help="enable verbose output",
+                       action="store_const", dest="loglevel", const=logging.INFO)
 
     parser = argparse.ArgumentParser(prog='csvplot', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
@@ -49,12 +52,13 @@ def read_arguments(args):
     sql_parser = subparsers.add_parser('sqlmode', help="plot sql data",
                                        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     sql_parser.add_argument('--dbfile', help="db file to open", required=True, type=str)
-    sql_parser.add_argument('--sql', help="sql query that returns (at least) 'x' and 'y' column", required=True, type=str)
+    sql_parser.add_argument('--sql', help="sql query that returns (at least) 'x' and 'y' data", required=True, type=str)
     add_common_arguments(sql_parser)
 
     csv_parser = subparsers.add_parser('csvmode', help="plot csv data",
                                        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    csv_parser.add_argument('--noheader', help="if set, first line is data, not header", default=False, action="store_true")
+    csv_parser.add_argument('--noheader', help="if set, first line is data, not header",
+                            default=False, action="store_true")
     csv_parser.add_argument('--sep', help="seperator used in csv file ala ','/' '/'\\t'", default=",", type=str)
     csv_parser.add_argument('--xy', help="index of column for x and y data", nargs=2, action='append', type=int)
     group = csv_parser.add_mutually_exclusive_group(required=True)
