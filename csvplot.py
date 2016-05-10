@@ -124,17 +124,17 @@ def get_arrays_to_plot(pool, xind, yind, options):
     return x, y
 
 
-def do_once_per_graph(subplot, x, y, index, options):
+def do_once_per_graph(subplot, x, y, index, options, label="some data"):
 
     colors = ["blue", "green", "red", "cyan", "magenta", "yellow", "black", "white"]
     c = colors[index % len(colors)]
 
     if options.xtransform == "date":
-        subplot.plot_date(x, y, c=c, marker=options.marker, linestyle=options.linestyle, antialiased=True)
+        subplot.plot_date(x, y, c=c, marker=options.marker, linestyle=options.linestyle, antialiased=True, label=label)
     else:
         if options.linestyle != "":
             logging.warn("--linestyle will not work with scatterplot")
-        subplot.scatter(x, y, c=c, marker=options.marker, antialiased=True)
+        subplot.scatter(x, y, c=c, marker=options.marker, antialiased=True, label=label)
 
     dx = numpy.amax(x) - numpy.amin(x)
     dy = numpy.amax(y) - numpy.amin(y)
@@ -164,6 +164,8 @@ def do_once_per_plot(subplot, options):
         loccer.MAXTICKS = 2000
         subplot.xaxis.set_major_locator(loccer)
         subplot.xaxis.set_major_formatter(matplotlib.dates.DateFormatter(options.dateformat))
+
+    subplot.legend(loc='center left', bbox_to_anchor=(1, 0.5))
 
     box = "tight"
     pad = 0.2
