@@ -95,20 +95,25 @@ def get_arrays_to_plot(pool, xind, yind, options):
     cnt = 0
 
     for res in pool:
-        cnt += 1
-        if not cnt % 1000:
-            print("got to iteration %d" % cnt)
-            print(res)
+        try:
+            cnt += 1
+            if not cnt % 1000:
+                print("got to iteration %d" % cnt)
+                print(res)
 
-        xval = res[xind]
-        yval = res[yind]
-        xt = transform(xval, options.xtransform, options)
-        yt = transform(yval, options.ytransform, options)
-        if xt is None or yt is None:
-            print("could not process line %s" % res)
-            continue
-        x.append(xt)
-        y.append(yt)
+            xval = res[xind]
+            yval = res[yind]
+            xt = transform(xval, options.xtransform, options)
+            yt = transform(yval, options.ytransform, options)
+            if xt is None or yt is None:
+                print("could not process line %s" % res)
+                continue
+            x.append(xt)
+            y.append(yt)
+        except Exception as e:
+            print(type(res))
+            print("problem handling line %d: %s" % (cnt, res))
+            raise e
 
     x = numpy.array(x)
     y = numpy.array(y)
