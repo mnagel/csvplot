@@ -6,7 +6,9 @@ from __future__ import print_function
 import argparse
 import code
 import csv
+# noinspection PyUnresolvedReferences
 import datetime
+import io
 import logging
 import matplotlib
 # import happens later
@@ -15,8 +17,6 @@ import numpy
 import re
 import sqlite3
 import sys
-
-import io
 
 
 def read_arguments(args):
@@ -189,6 +189,7 @@ def prepare_matplotlib(options):
     # need options before matplotlib can be imported
     if not options.show:
         # allow creating pngs without X server
+        # noinspection PyUnresolvedReferences
         matplotlib.use('Agg')
     import matplotlib.pyplot
 
