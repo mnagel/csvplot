@@ -18,14 +18,14 @@ Simple Example
 
 Input is structured like this:
 ```
-x,y
+x,x**3
+-3,-27
+-2,-8
+-1,-1
+0,0
 1,1
-2,2
-3,3
-4,2
-5,1
-6,2
-7,3
+2,8
+3,27
 ```
 
 ```
@@ -45,7 +45,7 @@ Real Example
 
 Input is structured like this:
 ```
-timestamp, num, bytes, from, host, ip, seq, ttl, ping, ms
+timestamp num bytes from host ip seq ttl ping ms
 2014-11-25@19:56:13 64 bytes from redirector.heise.de (193.99.144.80): icmp_seq=3395 ttl=245 time=120 ms
 2014-11-25@19:56:14 64 bytes from redirector.heise.de (193.99.144.80): icmp_seq=3396 ttl=245 time=106 ms
 2014-11-25@19:56:15 64 bytes from redirector.heise.de (193.99.144.80): icmp_seq=3397 ttl=245 time=17.9 ms
