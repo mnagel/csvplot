@@ -57,8 +57,6 @@ def read_arguments(args):
 
     csv_parser = subparsers.add_parser('csvmode', help="plot csv data",
                                        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    csv_parser.add_argument('--noheader', help="if set, first line is data, not header",
-                            default=False, action="store_true")
     csv_parser.add_argument('--sep', help="seperator used in csv file ala ','/' '/'\\t'", default=",", type=str)
     csv_parser.add_argument('--xy', help="index of column for x and y data", nargs=2, action='append', type=int)
     group = csv_parser.add_mutually_exclusive_group(required=True)
@@ -254,12 +252,12 @@ def main_csvmode(options):
         xind = xy[0] - 1
         yind = xy[1] - 1
 
-        allmylines = csv.reader(io.StringIO(alltext), delimiter=options.sep)
-        if not options.noheader:
-            next(allmylines)
+        allmylines = csv.DictReader(io.StringIO(alltext), delimiter=options.sep)
+        xindname = allmylines.fieldnames[xind]
+        yindname = allmylines.fieldnames[yind]
+        x, y = get_arrays_to_plot(allmylines, xindname, yindname, options)
 
-        x, y = get_arrays_to_plot(allmylines, xind, yind, options)
-        do_once_per_graph(subplot, x, y, index, options)
+        do_once_per_graph(subplot, x, y, index, options, label=allmylines.fieldnames[yind])
         index += 1
 
     do_once_per_plot(subplot, options)
