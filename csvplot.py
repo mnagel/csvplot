@@ -59,6 +59,8 @@ def read_arguments(args):
                                        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     csv_parser.add_argument('--sep', help="seperator used in csv file ala ','/' '/'\\t'", default=",", type=str)
     csv_parser.add_argument('--xy', help="index of column for x and y data", nargs=2, action='append', type=int)
+    csv_parser.add_argument('--xxy', help="index of column for x, xx and y data", nargs=3, default=[],
+                            action='append', type=int)
     group = csv_parser.add_mutually_exclusive_group(required=True)
     group.add_argument('--infile', help="csv file to open", type=str)
     group.add_argument('--stdin', help="read from stdin", default=False, action="store_true")
@@ -127,17 +129,27 @@ def get_arrays_to_plot(pool, xind, yind, options):
     return x, y
 
 
-def do_once_per_graph(subplot, x, y, index, options, label="some data"):
+def do_once_per_graph(subplot, x, y, index, options, label="some data", xx=None):
 
     colors = ["blue", "green", "red", "cyan", "magenta", "yellow", "black", "white"]
     c = colors[index % len(colors)]
 
     if options.xtransform == "date":
-        subplot.plot_date(x, y, c=c, marker=options.marker, linestyle=options.linestyle, antialiased=True, label=label)
+        if xx is not None:
+            subplot.scatter(x, y, color=c, marker="s", antialiased=True, label=label)
+            for x1, xx1, y1 in zip(x, xx, y):
+                subplot.plot_date((x1, xx1), (y1, y1), 'k-', color=c, marker="s", antialiased=True)
+        else:
+            subplot.plot_date(x, y, c=c, marker=options.marker, linestyle=options.linestyle, antialiased=True, label=label)
     else:
         if options.linestyle != "":
             logging.warn("--linestyle will not work with scatterplot")
-        subplot.scatter(x, y, c=c, marker=options.marker, antialiased=True, label=label)
+        if xx is not None:
+            subplot.scatter(x, y, color=c, marker="s", antialiased=True, label=label)
+            for x1, xx1, y1 in zip(x, xx, y):
+                subplot.plot((x1, xx1), (y1, y1), 'k-', color=c, marker="s", antialiased=True)
+        else:
+            subplot.scatter(x, y, color=c, marker=options.marker, antialiased=True, label=label)
 
     dx = numpy.amax(x) - numpy.amin(x)
     dy = numpy.amax(y) - numpy.amin(y)
@@ -258,6 +270,27 @@ def main_csvmode(options):
         x, y = get_arrays_to_plot(allmylines, xindname, yindname, options)
 
         do_once_per_graph(subplot, x, y, index, options, label=allmylines.fieldnames[yind])
+        index += 1
+
+    # TODO: xy und xxy weniger Copy&Pasten
+    for xxy in options.xxy:
+        logging.info("creating graph for %s" % xxy)
+
+        # csvplot columns are indexed 1-based
+        xind = xxy[0] - 1
+        xxind = xxy[1] - 1
+        yind = xxy[2] - 1
+
+        allmylines = csv.DictReader(io.StringIO(alltext), delimiter=options.sep)
+        xindname = allmylines.fieldnames[xind]
+        xxindname = allmylines.fieldnames[xxind]
+        yindname = allmylines.fieldnames[yind]
+
+        x, y = get_arrays_to_plot(allmylines, xindname, yindname, options)
+        allmylines2 = csv.DictReader(io.StringIO(alltext), delimiter=options.sep)
+        xx, dontcare = get_arrays_to_plot(allmylines2, xxindname, yindname, options)
+
+        do_once_per_graph(subplot, x, y, index, options, label=allmylines.fieldnames[yind], xx=xx)
         index += 1
 
     do_once_per_plot(subplot, options)
